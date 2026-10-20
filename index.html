@@ -1,0 +1,742 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pastel Studio | Creative Dashboard</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --pink: #f4b8cc;
+      --rose: #e98eae;
+      --purple: #c6b6ee;
+      --blue: #a9c9f5;
+      --mint: #b5ded3;
+      --peach: #f8c9b2;
+      --ink: #39394d;
+      --muted: #89899d;
+      --surface: rgba(255, 255, 255, 0.75);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 10% 5%, #ffe1eb 0, transparent 35%),
+        radial-gradient(ellipse at 90% 30%, #e5e7ff 0, transparent 35%),
+        linear-gradient(135deg, #fff8f6, #f8f4ff 55%, #f0f9ff);
+    }
+
+    .dashboard {
+      max-width: 1600px;
+      margin: auto;
+      padding: 32px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 25px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .brand-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      color: white;
+      font-size: 23px;
+      background: linear-gradient(135deg, #ef9fba, #b3a0e8);
+      box-shadow: 0 8px 20px #d9b4d355;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      font-size: 27px;
+      font-weight: 600;
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .date-pill {
+      padding: 11px 17px;
+      border: 1px solid #ffffff;
+      border-radius: 50px;
+      background: var(--surface);
+      box-shadow: 0 5px 18px #7f72910c;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .section-heading {
+      margin: 28px 0 13px;
+      font-family: 'Playfair Display', serif;
+      font-size: 21px;
+    }
+
+    .art-card {
+      position: relative;
+      height: 100%;
+      min-height: 135px;
+      padding: 20px;
+      overflow: hidden;
+      isolation: isolate;
+      border: 1px solid #ffffffc9;
+      border-radius: 23px;
+      background: var(--surface);
+      box-shadow: 0 8px 28px #66547d0c;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .art-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px #66547d1c;
+    }
+
+    .art-card::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 150px;
+      height: 150px;
+      right: -50px;
+      bottom: -90px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.38;
+    }
+
+    .pink {
+      --accent: var(--pink);
+      background: linear-gradient(140deg, #fff4f7, #fce1ea);
+    }
+
+    .purple {
+      --accent: var(--purple);
+      background: linear-gradient(140deg, #faf5ff, #e9e0fc);
+    }
+
+    .blue {
+      --accent: var(--blue);
+      background: linear-gradient(140deg, #f2f8ff, #dceaff);
+    }
+
+    .mint {
+      --accent: var(--mint);
+      background: linear-gradient(140deg, #f0fbf7, #d8f0e8);
+    }
+
+    .peach {
+      --accent: var(--peach);
+      background: linear-gradient(140deg, #fff7f0, #ffe5d7);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon-circle {
+      width: 43px;
+      height: 43px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      background: white;
+      color: var(--ink);
+      box-shadow: 0 5px 12px #39394d0b;
+      font-size: 18px;
+    }
+
+    .card-label {
+      font-size: 13px;
+      font-weight: 700;
+      margin: 0 0 4px;
+    }
+
+    .card-description {
+      margin: 0;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .big-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 35px;
+      line-height: 1.2;
+      margin-top: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .small-note {
+      font-size: 11px;
+      color: #85849b;
+      position: relative;
+      z-index: 1;
+    }
+
+    .welcome-card {
+      min-height: 235px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .welcome-card .welcome-title {
+      max-width: 300px;
+      margin-top: 22px;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(25px, 3vw, 36px);
+      line-height: 1.2;
+    }
+
+    .welcome-card .welcome-title span {
+      color: #d87e9f;
+      font-style: italic;
+    }
+
+    .welcome-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 10px;
+    }
+
+    .round-decoration {
+      width: 88px;
+      height: 88px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: white;
+      font-size: 37px;
+      background: linear-gradient(145deg, #f4a9c1, #c1b1ef);
+      box-shadow: 0 10px 25px #cf9fca55;
+    }
+
+    .feature-card {
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feature-art {
+      flex: 1;
+      min-height: 175px;
+      margin-top: 20px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 75% 22%, #ffffffbb 0 6%, transparent 6.5%),
+        linear-gradient(180deg, #b6d5f5 0%, #e1e9ff 56%, #d7c9f0 100%);
+    }
+
+    .feature-art::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: -10%;
+      width: 125%;
+      height: 65%;
+      background: #ffffff5c;
+      clip-path: polygon(0 70%, 17% 20%, 31% 56%, 47% 5%, 64% 61%, 80% 24%, 100% 66%, 100% 100%, 0 100%);
+    }
+
+    .feature-art::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: -5%;
+      width: 115%;
+      height: 40%;
+      background: linear-gradient(145deg, #b1c5e9, #a7d9d9);
+      clip-path: polygon(0 38%, 25% 70%, 45% 20%, 68% 65%, 83% 25%, 100% 50%, 100% 100%, 0 100%);
+    }
+
+    .feature-caption {
+      position: relative;
+      z-index: 1;
+      margin-top: 15px;
+    }
+
+    .progress {
+      height: 7px;
+      border-radius: 10px;
+      background: #ffffffb5;
+    }
+
+    .progress-bar {
+      border-radius: 10px;
+      background: linear-gradient(90deg, #e99cb9, #b8a6ed);
+    }
+
+    .mini-stat {
+      margin-top: 18px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .mini-stat strong {
+      color: var(--ink);
+    }
+
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 0;
+      border-bottom: 1px solid #ffffffc9;
+    }
+
+    .list-item:last-child {
+      border-bottom: 0;
+    }
+
+    .list-dot {
+      width: 10px;
+      height: 10px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: #e99fbc;
+    }
+
+    .list-item p {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .list-item small {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .bottom-card {
+      min-height: 160px;
+    }
+
+    .decorative-icon {
+      position: absolute;
+      right: 20px;
+      bottom: 12px;
+      font-size: 48px;
+      opacity: 0.25;
+      transform: rotate(-12deg);
+    }
+
+    .footer {
+      text-align: center;
+      color: #a09aaf;
+      font-size: 11px;
+      padding: 28px 0 5px;
+    }
+
+    @media (max-width: 767px) {
+      .dashboard {
+        padding: 18px 14px;
+      }
+
+      .brand h1 {
+        font-size: 22px;
+      }
+
+      .date-pill {
+        display: none;
+      }
+
+      .art-card {
+        border-radius: 19px;
+        padding: 17px;
+      }
+
+      .feature-card {
+        min-height: 290px;
+      }
+
+      .welcome-card {
+        min-height: 220px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="dashboard">
+
+    <!-- HEADER -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon">
+          <i class="bi bi-stars"></i>
+        </div>
+        <div>
+          <h1>Pastel Studio</h1>
+          <p>A little space for big ideas.</p>
+        </div>
+      </div>
+
+      <div class="date-pill">
+        <i class="bi bi-calendar3 me-2"></i>
+        Your creative corner
+      </div>
+    </header>
+
+    <!-- TOP CARDS -->
+    <section>
+      <div class="row g-3">
+
+        <div class="col-6 col-md-4 col-xl">
+          <div class="art-card pink">
+            <div class="card-top">
+              <div class="icon-circle">
+                <i class="bi bi-house-heart"></i>
+              </div>
+              <div>
+                <p class="card-label">Home</p>
+                <p class="card-description">Your space</p>
+              </div>
+            </div>
+            <i class="bi bi-flower1 decorative-icon"></i>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-xl">
+          <div class="art-card purple">
+            <div class="card-top">
+              <div class="icon-circle">
+                <i class="bi bi-calendar-heart"></i>
+              </div>
+              <div>
+                <p class="card-label">Planner</p>
+                <p class="card-description">Stay organized</p>
+              </div>
+            </div>
+            <i class="bi bi-stars decorative-icon"></i>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-xl">
+          <div class="art-card blue">
+            <div class="card-top">
+              <div class="icon-circle">
+                <i class="bi bi-person-heart"></i>
+              </div>
+              <div>
+                <p class="card-label">Profile</p>
+                <p class="card-description">Your identity</p>
+              </div>
+            </div>
+            <i class="bi bi-cloud-sun decorative-icon"></i>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-6 col-xl">
+          <div class="art-card peach">
+            <div class="card-top">
+              <div class="icon-circle">
+                <i class="bi bi-bar-chart-line"></i>
+              </div>
+              <div>
+                <p class="card-label">Progress</p>
+                <p class="card-description">Little by little</p>
+              </div>
+            </div>
+            <i class="bi bi-graph-up-arrow decorative-icon"></i>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl">
+          <div class="art-card mint">
+            <div class="card-top">
+              <div class="icon-circle">
+                <i class="bi bi-gear"></i>
+              </div>
+              <div>
+                <p class="card-label">Settings</p>
+                <p class="card-description">Make it yours</p>
+              </div>
+            </div>
+            <i class="bi bi-palette decorative-icon"></i>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MIDDLE SECTION -->
+    <section>
+      <h2 class="section-heading">Your little world</h2>
+
+      <div class="row g-3 align-items-stretch">
+
+        <!-- LEFT COLUMN -->
+        <div class="col-12 col-lg-4">
+          <div class="row g-3">
+
+            <div class="col-12">
+              <div class="art-card pink welcome-card">
+                <div class="card-top">
+                  <div class="icon-circle">
+                    <i class="bi bi-sun"></i>
+                  </div>
+                  <div>
+                    <p class="card-label">A fresh start</p>
+                    <p class="card-description">Take a breath. Begin again.</p>
+                  </div>
+                </div>
+
+                <h2 class="welcome-title">
+                  Create something <span>beautiful.</span>
+                </h2>
+
+                <div class="welcome-bottom">
+                  <p class="small-note mb-1">Your ideas deserve room to grow.</p>
+                  <div class="round-decoration">
+                    <i class="bi bi-flower2"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="art-card purple">
+                <div class="card-top">
+                  <div class="icon-circle">
+                    <i class="bi bi-heart"></i>
+                  </div>
+                </div>
+                <p class="card-label mt-3">Favorites</p>
+                <p class="card-description">Things you love</p>
+                <i class="bi bi-heart-fill decorative-icon"></i>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="art-card peach">
+                <div class="card-top">
+                  <div class="icon-circle">
+                    <i class="bi bi-bell"></i>
+                  </div>
+                </div>
+                <p class="card-label mt-3">Reminders</p>
+                <p class="card-description">Don't forget you</p>
+                <i class="bi bi-stars decorative-icon"></i>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- CENTER COLUMN -->
+        <div class="col-12 col-lg-5">
+          <div class="art-card blue feature-card">
+            <div class="card-top">
+              <div class="icon-circle">
+                <i class="bi bi-image"></i>
+              </div>
+              <div>
+                <p class="card-label">Inspiration board</p>
+                <p class="card-description">Collect moments and ideas</p>
+              </div>
+            </div>
+
+            <div class="feature-art"></div>
+
+            <div class="feature-caption">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="card-label">Dream, explore, create</span>
+                <i class="bi bi-stars"></i>
+              </div>
+              <p class="card-description">
+                Make ordinary days feel a little more special.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="col-12 col-lg-3">
+          <div class="row g-3 h-100">
+
+            <div class="col-6 col-lg-12">
+              <div class="art-card purple h-100">
+                <div class="card-top">
+                  <div class="icon-circle">
+                    <i class="bi bi-journal-heart"></i>
+                  </div>
+                </div>
+
+                <p class="card-label mt-3">My journal</p>
+                <p class="card-description">A place for your thoughts</p>
+
+                <div class="list-item mt-3">
+                  <i class="bi bi-pencil-square"></i>
+                  <div>
+                    <p>Write freely</p>
+                    <small>No rules, just you.</small>
+                  </div>
+                </div>
+
+                <i class="bi bi-feather decorative-icon"></i>
+              </div>
+            </div>
+
+            <div class="col-6 col-lg-12">
+              <div class="art-card blue h-100">
+                <div class="card-top">
+                  <div class="icon-circle">
+                    <i class="bi bi-check2-circle"></i>
+                  </div>
+                </div>
+
+                <p class="card-label mt-3">Daily goals</p>
+                <p class="card-description">Small steps count</p>
+
+                <div class="mini-stat">
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>Today's progress</span>
+                    <strong>75%</strong>
+                  </div>
+                  <div class="progress">
+                    <div class="progress-bar" style="width: 75%"></div>
+                  </div>
+                </div>
+
+                <i class="bi bi-stars decorative-icon"></i>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BOTTOM SECTION -->
+    <section>
+      <h2 class="section-heading">A little more for you</h2>
+
+      <div class="row g-3">
+
+        <div class="col-12 col-md-4">
+          <div class="art-card mint bottom-card">
+            <div class="card-top">
+              <div class="icon-circle">
+                <i class="bi bi-send-heart"></i>
+              </div>
+              <div>
+                <p class="card-label">Messages to myself</p>
+                <p class="card-description">Gentle reminders for hard days</p>
+              </div>
+            </div>
+
+            <p class="mt-4 mb-0 small-note">
+              "You are allowed to grow at your own pace."
+            </p>
+            <i class="bi bi-flower3 decorative-icon"></i>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="art-card purple bottom-card">
+            <div class="card-top">
+              <div class="icon-circle">
+                <i class="bi bi-stars"></i>
+              </div>
+              <div>
+                <p class="card-label">Personal growth</p>
+                <p class="card-description">Celebrate every little win</p>
+              </div>
+            </div>
+
+            <div class="big-number">One day at a time.</div>
+            <div class="progress mt-3">
+              <div class="progress-bar" style="width: 65%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="art-card pink bottom-card">
+            <div class="card-top">
+              <div class="icon-circle">
+                <i class="bi bi-heart-fill"></i>
+              </div>
+              <div>
+                <p class="card-label">A note for today</p>
+                <p class="card-description">Something worth remembering</p>
+              </div>
+            </div>
+
+            <p class="mt-4 mb-0 small-note">
+              Make space for the things that make you happy.
+            </p>
+            <i class="bi bi-balloon-heart decorative-icon"></i>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer class="footer">
+      Made with care, creativity, and a little pastel magic.
+    </footer>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
